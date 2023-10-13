@@ -20,6 +20,7 @@
 		D0A842B32AD95DE800047683 /* APISearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A842B22AD95DE800047683 /* APISearchService.swift */; };
 		D0A842BB2AD9614B00047683 /* APIDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A842BA2AD9614B00047683 /* APIDetail.swift */; };
 		D0A842BD2AD9617A00047683 /* APIRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A842BC2AD9617A00047683 /* APIRow.swift */; };
+		D0A842C02AD96C0B00047683 /* OfflineDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0A842BE2AD96C0B00047683 /* OfflineDB.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		D0A842B22AD95DE800047683 /* APISearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISearchService.swift; sourceTree = "<group>"; };
 		D0A842BA2AD9614B00047683 /* APIDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDetail.swift; sourceTree = "<group>"; };
 		D0A842BC2AD9617A00047683 /* APIRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRow.swift; sourceTree = "<group>"; };
+		D0A842BF2AD96C0B00047683 /* APIEntity.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = APIEntity.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				D0A842822AD94BEA00047683 /* APIPublicListAppApp.swift */,
 				D0A842862AD94BEB00047683 /* Assets.xcassets */,
 				D0A842882AD94BEB00047683 /* Preview Content */,
+				D0A842BE2AD96C0B00047683 /* OfflineDB.xcdatamodeld */,
 			);
 			path = APIPublicListApp;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			files = (
 				D0A842852AD94BEA00047683 /* APIListView.swift in Sources */,
 				D0A842BD2AD9617A00047683 /* APIRow.swift in Sources */,
+				D0A842C02AD96C0B00047683 /* OfflineDB.xcdatamodeld in Sources */,
 				D0A842AF2AD94DAF00047683 /* WebView.swift in Sources */,
 				D0A842B12AD953E900047683 /* APIViewModel.swift in Sources */,
 				D0A842AD2AD94D4E00047683 /* Model.swift in Sources */,
@@ -655,6 +659,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D0A842BE2AD96C0B00047683 /* OfflineDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D0A842BF2AD96C0B00047683 /* APIEntity.xcdatamodel */,
+			);
+			currentVersion = D0A842BF2AD96C0B00047683 /* APIEntity.xcdatamodel */;
+			path = OfflineDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D0A842772AD94BEA00047683 /* Project object */;
 }
