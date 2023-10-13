@@ -17,7 +17,7 @@ struct APIRow: View {
                 Text(api.API).font(.headline)
                 Text(api.Description).font(.subheadline)
                 Text("Category: \(api.Category)")
-                Text(api.HTTPS ? "HTTPS" : "") // Displays "HTTPS" if api.HTTPS is true
+                Text(api.HTTPS ? "HTTPS" : "")
             }
             Spacer()
             Image(systemName: api.Auth.isEmpty ? "lock.open" : "lock")
