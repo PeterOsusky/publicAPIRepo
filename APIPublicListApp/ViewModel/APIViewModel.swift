@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class ApiSearchModel: ObservableObject {
+class ApiViewModel: ObservableObject {
     @Published var searchQuery: String = ""
     @Published var selectedCategory: String = "All"
     @Published var filteredApis: [APIModel] = []

@@ -9,12 +9,12 @@ import SwiftUI
 
 struct APIListView: View {
     @ObservedObject var apiService = ApiSearchService()
-    @ObservedObject var searchModel: ApiSearchModel
+    @ObservedObject var searchModel: ApiViewModel
     
     init() {
         let apiService = ApiSearchService()
         self.apiService = apiService
-        self.searchModel = ApiSearchModel(apiService: apiService)
+        self.searchModel = ApiViewModel(apiService: apiService)
     }
     
     var body: some View {
@@ -28,7 +28,7 @@ struct APIListView: View {
                 }
                 .pickerStyle(MenuPickerStyle())
                 
-                List(searchModel.filteredApis, id: \.API) { api in
+                List(searchModel.filteredApis) { api in
                     NavigationLink(destination: APIDetailView(url: api.Link)) {
                         APIRow(api: api)
                     }

@@ -11,7 +11,7 @@ import SwiftUI
 struct APIPublicListAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            APIListView()
         }
     }
 }
