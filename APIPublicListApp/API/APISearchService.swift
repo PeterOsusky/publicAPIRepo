@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import Network
 
 class ApiSearchService: ObservableObject {
     @Published var apis: [APIModel] = []
@@ -14,8 +15,21 @@ class ApiSearchService: ObservableObject {
 
     var cancellables: Set<AnyCancellable> = []
     
-    func fetchApis() {
-        let url = URL(string: "https://api.publicapis.org/entries")!
+    
+    var isOfflineMode: Bool {
+        // Negate isConnected because isOfflineMode should be true when isConnected is false
+        return !NetworkMonitor.shared.isConnected
+    }
+    
+    func fetchApis(query: String? = nil) {
+        var url = URL(string: "https://api.publicapis.org/entries")!
+        
+        if let query = query {
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+            components.queryItems = [URLQueryItem(name: "title", value: query)]
+            url = components.url!
+        }
+        
         URLSession.shared.dataTaskPublisher(for: url)
             .map(\.data)
             .decode(type: APIResponse.self, decoder: JSONDecoder())

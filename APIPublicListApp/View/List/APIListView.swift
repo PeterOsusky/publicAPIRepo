@@ -20,6 +20,20 @@ struct APIListView: View {
     var body: some View {
         NavigationView {
             VStack {
+                
+                HStack {
+                    TextField("Search APIs...", text: $searchModel.searchQuery)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding([.leading, .trailing], 8)
+                    Button(action: {
+                        apiService.fetchApis()
+                        searchModel.searchQuery = ""
+                    }) {
+                        Text("Cancel")
+                    }
+                    .padding(.trailing, 8)
+                }
+                
                 Picker("Categories", selection: $searchModel.selectedCategory) {
                     Text("All").tag("All")
                     ForEach(apiService.categories, id: \.self) { category in
@@ -30,7 +44,7 @@ struct APIListView: View {
                 
                 List(searchModel.filteredApis) { api in
                     NavigationLink(destination: APIDetailView(url: api.Link)) {
-                        APIRow(api: api)
+                        APIRowView(api: api)
                     }
                 }
             }

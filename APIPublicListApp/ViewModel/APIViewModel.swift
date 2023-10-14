@@ -22,22 +22,37 @@ class ApiViewModel: ObservableObject {
         apiService.$apis
             .combineLatest($searchQuery, $selectedCategory)
             .map { apis, query, category -> [APIModel] in
-                var filtered = apis
-                
-                // If a search query is present, filter based on it
-                if !query.isEmpty {
-                    filtered = filtered.filter { $0.API.contains(query) || $0.Description.contains(query) }
-                }
-                
-                // If a category is selected (not "All"), filter based on it
-                if category != "All" {
-                    filtered = filtered.filter { $0.Category == category }
-                } else {
-                    filtered = Array(filtered.prefix(40))
-                }
-                
-                return filtered
+                return self.filterApis(apis, query: query, category: category)
             }
             .assign(to: &$filteredApis)
+        
+        // Observer for search query changes
+        $searchQuery
+            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+            .sink { queryString in
+                if !queryString.isEmpty, !self.apiService.isOfflineMode {
+                    // Perform online search if needed
+                    self.apiService.fetchApis(query: queryString)
+                }
+            }
+            .store(in: &apiService.cancellables)
+    }
+    
+    private func filterApis(_ apis: [APIModel], query: String, category: String) -> [APIModel] {
+        var filtered = apis
+        
+        // If a search query is present, filter based on it
+        if !query.isEmpty {
+            filtered = filtered.filter { $0.API.contains(query) || $0.Description.contains(query) }
+        }
+        
+        // If a category is selected (not "All"), filter based on it
+        if category != "All" {
+            filtered = filtered.filter { $0.Category == category }
+        } else {
+            filtered = Array(filtered.prefix(40))
+        }
+        
+        return filtered
     }
 }

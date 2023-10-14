@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct APIRow: View {
+struct APIRowView: View {
     var api: APIModel
     
     var body: some View {
