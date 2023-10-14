@@ -42,9 +42,24 @@ struct APIListView: View {
                 }
                 .pickerStyle(MenuPickerStyle())
                 
-                List(searchModel.filteredApis) { api in
-                    NavigationLink(destination: APIDetailView(url: api.Link)) {
-                        APIRowView(api: api)
+                if apiService.isLoading {
+                    ProgressView("Loading APIs...")
+                }
+                // Check if there are APIs to show
+                else if searchModel.filteredApis.isEmpty {
+                    Text("No APIs found")
+                        .font(.title2)
+                        .foregroundColor(.secondary)
+                        .padding()
+                    
+                    Spacer()
+                }
+                // Show APIs in a list if available
+                else {
+                    List(searchModel.filteredApis) { api in
+                        NavigationLink(destination: APIDetailView(url: api.Link)) {
+                            APIRowView(api: api)
+                        }
                     }
                 }
             }

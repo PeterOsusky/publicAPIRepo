@@ -12,6 +12,8 @@ import Network
 class ApiSearchService: ObservableObject {
     @Published var apis: [APIModel] = []
     @Published var categories: [String] = []
+    @Published var isLoading: Bool = false
+    @Published var hasResults: Bool = true
 
     var cancellables: Set<AnyCancellable> = []
     
@@ -35,9 +37,17 @@ class ApiSearchService: ObservableObject {
             .decode(type: APIResponse.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
-                // Handle error here
+                self.isLoading = false  // Set loading state to false when fetching is complete
+                
+                switch completion {
+                case .finished:
+                    break // Finished successfully
+                case .failure(let error):
+                    print("Error fetching data: \(error)") // Handle the error
+                }
             }, receiveValue: { [weak self] response in
-                self?.apis = response.entries
+                self?.apis = response.entries!
+                self?.hasResults = !response.entries!.isEmpty // Set hasResults based on whether any entries were received
             })
             .store(in: &cancellables)
     }
@@ -58,7 +68,7 @@ class ApiSearchService: ObservableObject {
 }
 
 struct APIResponse: Codable {
-    let entries: [APIModel]
+    let entries: [APIModel]?
 }
 
 struct CategoryResponse: Codable {
