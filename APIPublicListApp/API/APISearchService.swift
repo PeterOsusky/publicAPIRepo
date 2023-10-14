@@ -19,8 +19,15 @@ class ApiSearchService: ObservableObject {
     
     
     var isOfflineMode: Bool {
-        // Negate isConnected because isOfflineMode should be true when isConnected is false
         return !NetworkMonitor.shared.isConnected
+    }
+    
+    private func startLoading() {
+        isLoading = true
+    }
+
+    private func stopLoading() {
+        isLoading = false
     }
     
     func fetchApis(query: String? = nil) {
@@ -32,22 +39,26 @@ class ApiSearchService: ObservableObject {
             url = components.url!
         }
         
+        self.startLoading()
+        
         URLSession.shared.dataTaskPublisher(for: url)
             .map(\.data)
             .decode(type: APIResponse.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
-                self.isLoading = false  // Set loading state to false when fetching is complete
+                self.stopLoading()
                 
                 switch completion {
                 case .finished:
-                    break // Finished successfully
+                    break
                 case .failure(let error):
-                    print("Error fetching data: \(error)") // Handle the error
+                    print("Error fetching data: \(error)")
+                    self.apis = []
+                    self.hasResults = false
                 }
             }, receiveValue: { [weak self] response in
-                self?.apis = response.entries!
-                self?.hasResults = !response.entries!.isEmpty // Set hasResults based on whether any entries were received
+                self?.apis = response.entries ?? []
+                self?.hasResults = !(self?.apis.isEmpty ?? true)
             })
             .store(in: &cancellables)
     }

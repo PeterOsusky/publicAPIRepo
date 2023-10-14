@@ -26,7 +26,6 @@ class ApiViewModel: ObservableObject {
             }
             .assign(to: &$filteredApis)
         
-        // Observer for search query changes
         $searchQuery
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { queryString in
@@ -41,12 +40,10 @@ class ApiViewModel: ObservableObject {
     private func filterApis(_ apis: [APIModel], query: String, category: String) -> [APIModel] {
         var filtered = apis
         
-        // If a search query is present, filter based on it
         if !query.isEmpty {
             filtered = filtered.filter { $0.API.contains(query) || $0.Description.contains(query) }
         }
         
-        // If a category is selected (not "All"), filter based on it
         if category != "All" {
             filtered = filtered.filter { $0.Category == category }
         } else {
