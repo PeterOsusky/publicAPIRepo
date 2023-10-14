@@ -18,7 +18,6 @@ class ApiViewModel: ObservableObject {
     init(apiService: ApiSearchService) {
         self.apiService = apiService
         
-        // Observer for API list changes
         apiService.$apis
             .combineLatest($searchQuery, $selectedCategory)
             .map { apis, query, category -> [APIModel] in
