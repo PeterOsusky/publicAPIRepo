@@ -8,12 +8,14 @@
 import Foundation
 import Combine
 import Network
+import CoreData
 
 class ApiSearchService: ObservableObject {
     @Published var apis: [APIModel] = []
     @Published var categories: [String] = []
     @Published var isLoading: Bool = false
     @Published var hasResults: Bool = true
+    @Published var coreDataModel = CoreDataModel()
 
     var cancellables: Set<AnyCancellable> = []
     
@@ -31,6 +33,10 @@ class ApiSearchService: ObservableObject {
     }
     
     func fetchApis(query: String? = nil) {
+        guard !isOfflineMode else {
+            fetchFromCoreData()
+            return
+        }
         var url = URL(string: "https://api.publicapis.org/entries")!
         
         if let query = query {
@@ -55,10 +61,18 @@ class ApiSearchService: ObservableObject {
                     print("Error fetching data: \(error)")
                     self.apis = []
                     self.hasResults = false
+                    self.fetchFromCoreData()
+                    print("offline")
                 }
             }, receiveValue: { [weak self] response in
-                self?.apis = response.entries ?? []
-                self?.hasResults = !(self?.apis.isEmpty ?? true)
+                guard let self = self else { return }
+                
+                self.apis = response.entries ?? []
+                self.hasResults = !self.apis.isEmpty
+                
+                self.saveToCoreData(apiData: Array(self.apis.prefix(40)))
+                print("online")
+
             })
             .store(in: &cancellables)
     }
@@ -75,6 +89,59 @@ class ApiSearchService: ObservableObject {
                 self?.categories = response.categories
             })
             .store(in: &cancellables)
+    }
+    
+    func saveToCoreData(apiData: [APIModel]) {
+        let context = coreDataModel.container.viewContext
+        print("save core data")
+        for api in apiData.prefix(40) {
+            let entity = ApiDBEntity(context: context)
+            entity.apiName = api.API
+            entity.apiDescription = api.Description
+            entity.apiAuth = api.Auth
+            entity.apiHTTPS = api.HTTPS
+            entity.apiCategory = api.Category
+            entity.apiLink = api.Link
+        }
+        do {
+            try context.save()
+        } catch {
+            print("Error saving to CoreData: \(error)")
+        }
+    }
+    
+    private func fetchFromCoreData() {
+        print("fetch core data")
+
+        let context = coreDataModel.container.viewContext
+        let fetchRequest: NSFetchRequest<ApiDBEntity> = ApiDBEntity.fetchRequest()
+        
+        do {
+            let storedApis = try context.fetch(fetchRequest)
+            
+            self.apis = storedApis.compactMap { storedApi in
+                guard let title = storedApi.apiName,
+                      let descriptionText = storedApi.apiDescription,
+                      let auth = storedApi.apiAuth,
+                      let category = storedApi.apiCategory,
+                      let link = storedApi.apiLink
+                else {
+                    return nil
+                }
+                let https = storedApi.apiHTTPS
+                
+                return APIModel(API: title,
+                                Description: descriptionText,
+                                Auth: auth,
+                                Link: link,
+                                Category: category,
+                                HTTPS: https)
+            }
+            
+            self.hasResults = !self.apis.isEmpty
+        } catch {
+            print("Error fetching from Core Data: \(error)")
+        }
     }
 }
 

@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct APIPublicListAppApp: App {
+    let coreDataModel = CoreDataModel()
+
     var body: some Scene {
         WindowGroup {
             APIListView()
+                .environment(\.managedObjectContext, coreDataModel.container.viewContext)
         }
     }
 }

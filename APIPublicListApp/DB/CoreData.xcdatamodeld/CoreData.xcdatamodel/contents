@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="APIEntity" representedClassName="APIEntity" syncable="YES" codeGenerationType="class">
+    <entity name="ApiDBEntity" representedClassName="ApiDBEntity" syncable="YES" codeGenerationType="class">
         <attribute name="apiAuth" optional="YES" attributeType="String"/>
         <attribute name="apiCategory" optional="YES" attributeType="String"/>
         <attribute name="apiDescription" optional="YES" attributeType="String"/>
+        <attribute name="apiHTTPS" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="apiLink" optional="YES" attributeType="String"/>
         <attribute name="apiName" optional="YES" attributeType="String"/>
-        <attribute name="https" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
 </model>
