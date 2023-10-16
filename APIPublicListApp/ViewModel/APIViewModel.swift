@@ -14,7 +14,8 @@ class ApiViewModel: ObservableObject {
     @Published var filteredApis: [APIModel] = []
     
     private var apiService: ApiSearchService
-    
+    private var previousSearchQuery: String = ""
+
     init(apiService: ApiSearchService) {
         self.apiService = apiService
         
@@ -28,8 +29,9 @@ class ApiViewModel: ObservableObject {
         $searchQuery
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { queryString in
-                if !queryString.isEmpty {
+                if !queryString.isEmpty && queryString != self.previousSearchQuery{
                     self.apiService.fetchApis(query: queryString)
+                    self.previousSearchQuery = queryString
                 }
             }
             .store(in: &apiService.cancellables)

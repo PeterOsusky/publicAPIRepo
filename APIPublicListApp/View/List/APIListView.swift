@@ -25,6 +25,7 @@ struct APIListView: View {
                     TextField("Search APIs...", text: $searchModel.searchQuery)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding([.leading, .trailing], 8)
+                        .autocorrectionDisabled()
                     Button(action: {
                         apiService.fetchApis()
                         searchModel.searchQuery = ""
@@ -59,6 +60,7 @@ struct APIListView: View {
                         NavigationLink(destination: APIDetailView(url: api.Link)) {
                             APIRowView(api: api)
                         }
+                        .isDetailLink(true)
                     }
                 }
             }

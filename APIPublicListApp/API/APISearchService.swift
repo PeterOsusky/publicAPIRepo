@@ -101,13 +101,13 @@ class ApiSearchService: ObservableObject {
         }
 
         for api in apiData.prefix(40) {
-            let entity = ApiDBEntity(context: context)
-            entity.apiName = api.API
-            entity.apiDescription = api.Description
-            entity.apiAuth = api.Auth
-            entity.apiHTTPS = api.HTTPS
-            entity.apiCategory = api.Category
-            entity.apiLink = api.Link
+            let entity = ApiDBEntity(usedContext: context)
+            entity.dbAPI = api.API
+            entity.dbDescription = api.Description
+            entity.dbAuth = api.Auth
+            entity.dbHTTPS = api.HTTPS
+            entity.dbCategory = api.Category
+            entity.dbLink = api.Link
         }
         do {
             try context.save()
@@ -124,15 +124,15 @@ class ApiSearchService: ObservableObject {
             let storedApis = try context.fetch(fetchRequest)
             
             self.apis = storedApis.compactMap { storedApi in
-                guard let title = storedApi.apiName,
-                      let descriptionText = storedApi.apiDescription,
-                      let auth = storedApi.apiAuth,
-                      let category = storedApi.apiCategory,
-                      let link = storedApi.apiLink
+                guard let title = storedApi.dbAPI,
+                      let descriptionText = storedApi.dbDescription,
+                      let auth = storedApi.dbAuth,
+                      let category = storedApi.dbCategory,
+                      let link = storedApi.dbLink
                 else {
                     return nil
                 }
-                let https = storedApi.apiHTTPS
+                let https = storedApi.dbHTTPS
                 
                 return APIModel(API: title,
                                 Description: descriptionText,
