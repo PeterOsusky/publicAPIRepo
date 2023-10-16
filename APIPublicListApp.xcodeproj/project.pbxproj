@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D0878DFE2ADD56B700B66B12 /* NSManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0878DFD2ADD56B700B66B12 /* NSManagedObjectExtension.swift */; };
+		D0878E002ADD5AB800B66B12 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0878DFF2ADD5AB800B66B12 /* FilterView.swift */; };
+		D0878E022ADD5AC200B66B12 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0878E012ADD5AC200B66B12 /* ContentView.swift */; };
 		D08B20142ADA98DB006EF13B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B20132ADA98DB006EF13B /* NetworkManager.swift */; };
 		D08B201B2ADAACA9006EF13B /* CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08B201A2ADAACA9006EF13B /* CoreDataModel.swift */; };
 		D08B201E2ADAB403006EF13B /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D08B201C2ADAB403006EF13B /* CoreData.xcdatamodeld */; };
@@ -45,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		D0878DFD2ADD56B700B66B12 /* NSManagedObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectExtension.swift; sourceTree = "<group>"; };
+		D0878DFF2ADD5AB800B66B12 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		D0878E012ADD5AC200B66B12 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D08B20132ADA98DB006EF13B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D08B201A2ADAACA9006EF13B /* CoreDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModel.swift; sourceTree = "<group>"; };
 		D08B201D2ADAB403006EF13B /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 			children = (
 				D0A842842AD94BEA00047683 /* APIListView.swift */,
 				D0A842BC2AD9617A00047683 /* APIRowView.swift */,
+				D0878DFF2ADD5AB800B66B12 /* FilterView.swift */,
+				D0878E012ADD5AC200B66B12 /* ContentView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -343,7 +349,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0878E002ADD5AB800B66B12 /* FilterView.swift in Sources */,
 				D08B201B2ADAACA9006EF13B /* CoreDataModel.swift in Sources */,
+				D0878E022ADD5AC200B66B12 /* ContentView.swift in Sources */,
 				D08B20142ADA98DB006EF13B /* NetworkManager.swift in Sources */,
 				D0A842852AD94BEA00047683 /* APIListView.swift in Sources */,
 				D0878DFE2ADD56B700B66B12 /* NSManagedObjectExtension.swift in Sources */,
