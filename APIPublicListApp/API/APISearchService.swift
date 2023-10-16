@@ -37,13 +37,7 @@ class ApiSearchService: ObservableObject {
             fetchFromCoreData()
             return
         }
-        var url = URL(string: "https://api.publicapis.org/entries")!
-        
-        if let query = query {
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            components.queryItems = [URLQueryItem(name: "title", value: query)]
-            url = components.url!
-        }
+        let url = URL(string: "https://api.publicapis.org/entries")!
         
         self.startLoading()
         
@@ -93,7 +87,19 @@ class ApiSearchService: ObservableObject {
     
     func saveToCoreData(apiData: [APIModel]) {
         let context = coreDataModel.container.viewContext
-        print("save core data")
+        
+        let fetchRequest: NSFetchRequest<ApiDBEntity> = ApiDBEntity.fetchRequest()
+
+        do {
+            let fetchedEntities = try context.fetch(fetchRequest)
+            for entity in fetchedEntities {
+                context.delete(entity)
+            }
+            try context.save()
+        } catch {
+            print("Error deleting old records from CoreData: \(error)")
+        }
+
         for api in apiData.prefix(40) {
             let entity = ApiDBEntity(context: context)
             entity.apiName = api.API
@@ -111,8 +117,6 @@ class ApiSearchService: ObservableObject {
     }
     
     private func fetchFromCoreData() {
-        print("fetch core data")
-
         let context = coreDataModel.container.viewContext
         let fetchRequest: NSFetchRequest<ApiDBEntity> = ApiDBEntity.fetchRequest()
         

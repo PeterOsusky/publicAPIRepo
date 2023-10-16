@@ -28,8 +28,7 @@ class ApiViewModel: ObservableObject {
         $searchQuery
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { queryString in
-                if !queryString.isEmpty, !self.apiService.isOfflineMode {
-                    // Perform online search if needed
+                if !queryString.isEmpty {
                     self.apiService.fetchApis(query: queryString)
                 }
             }
@@ -48,7 +47,6 @@ class ApiViewModel: ObservableObject {
         } else {
             filtered = Array(filtered.prefix(40))
         }
-        
         return filtered
     }
 }
